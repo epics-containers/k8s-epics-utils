@@ -64,14 +64,6 @@ it work with podman requires a little persuasion.
 I believe this will only work on RHEL8. The earlier version of podman on RHEL7
 does not have the correct API.
 
-The following setting in vscode user settings will ensure that each terminal
-loads the bash profile. This includes essential setup for DLS developer 
-environment.
-
-```
-"terminal.integrated.defaultProfile.linux": "bash (login)"
-```
-
 Execute these commands:
 
     sudo yum install podman-docker
@@ -84,6 +76,15 @@ Add the following to  /home/[YOUR USER NAME]/.config/Code/User/settings.json
     },
 
 (you can find your uid with the `id` command)
+
+
+The following setting in vscode user settings will ensure that each terminal
+loads the bash profile. This includes essential setup for DLS developer 
+environment.
+
+```
+"terminal.integrated.defaultProfile.linux": "bash (login)"
+```
 
 Run up vscode and install the remote development plugin:
 
