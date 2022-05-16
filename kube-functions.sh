@@ -96,6 +96,11 @@ function k8s-ioc()
         helm delete ${ioc}
         ;;
 
+    v|versions)
+        ioc=${1:? "param 1 should be ioc e.g. bl45p-mo-ioc-01"}; shift
+        podman run --rm quay.io/skopeo/stable list-tags docker://ghcr.io/epics-containers/$ioc
+        ;;
+
     deploy)
         ioc=${1:? "param 1 should be ioc e.g. bl45p-mo-ioc-01"}; shift
         version=${1:? param 2 should be version e.g. 1.0b1.1}; shift
@@ -189,6 +194,8 @@ function k8s-ioc()
                     attach to a running ioc shell
             delete <ioc-name>
                     delete all ioc resources except storage
+            versions <ioc-name>
+                    list available version of the ioc (from helm registry)
             deploy <ioc-name> <ioc-version>
                     deploy an ioc manifest from the beamline helm registry
             exec <ioc-name>

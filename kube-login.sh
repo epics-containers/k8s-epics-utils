@@ -31,3 +31,4 @@ module load helm helm/3.8.2 > /dev/null
 
 # guess which IP addresses the IOCs will run on (wont be required when networkHost enabled pods are in the same subnet on a beamline)
 export EPICS_CA_ADDR_LIST="172.23.168.2 172.23.168.3 172.23.168.4 172.23.168.5 172.23.168.6 172.23.168.7 172.23.168.8 172.23.168.9 172.23.168.10 172.23.168.11 172.23.168.12 172.23.168.13 172.23.168.14 172.23.168.15 172.23.168.16 172.23.168.17 172.23.168.18 172.23.168.19 172.23.168.20 172.23.168.21 172.23.168.22"
+export K8S_GRAYLOG_URL=https://graylog2.diamond.ac.uk
