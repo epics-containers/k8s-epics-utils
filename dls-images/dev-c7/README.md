@@ -15,12 +15,9 @@ How to use
 These instructions will work for a RHEL8 or RHEL7 DLS workstation (or
 any linux workstation that has /dls_sw and /scratch mounted)
 
-If you want to use edm then you will need to install the local fonts on your
-host machine. use ``sudo yum install`` on each of the rpms in this folder
-https://github.com/epics-containers/k8s-epics-utils/tree/main/dls-images/edm-fonts
-
 configure podman
 ----------------
+
 For first time use only:
 
     /dls_sw/apps/setup-podman/setup.sh
@@ -55,19 +52,31 @@ the container but these changes will only last for the lifetime of the
 container (this restriction can be lifted by using container commits but
 you would need to remove the --rm argument in run-dev.sh).
 
+work with edm (optional)
+------------------------
+
+If you want to use edm then you will need to install the local fonts on your
+host machine. Use ``sudo yum install`` on each of the rpms in this folder
+https://github.com/epics-containers/k8s-epics-utils/tree/main/dls-images/edm-fonts
+
 VSCode integration
 ==================
 
-VSCode has beautiful integration for developing in containers. However to make
+VSCode has beautiful integration for developing in containers. However, to make
 it work with podman requires a little persuasion.
 
 I believe this will only work on RHEL8. The earlier version of podman on RHEL7
 does not have the correct API.
 
+install podman-docker
+---------------------
+
 Execute these commands:
 
     sudo yum install podman-docker
     systemctl --user enable --now podman.socket
+edit user settings
+------------------
 
 Add the following to  /home/[YOUR USER NAME]/.config/Code/User/settings.json
 
@@ -77,21 +86,35 @@ Add the following to  /home/[YOUR USER NAME]/.config/Code/User/settings.json
 
 (you can find your uid with the `id` command)
 
-
-The following setting in vscode user settings will ensure that each terminal
-loads the bash profile. This includes essential setup for DLS developer 
-environment.
-
+Adding these additional settings ensures that each terminal loads the bash (login) profile by default. 
+This includes essential setup for DLS developer environment:
 ```
-"terminal.integrated.defaultProfile.linux": "bash (login)"
+"terminal.integrated.defaultProfile.linux": "bash (login)",
+"terminal.integrated.profiles.linux": {
+    "bash (login)": {
+        "args": [
+            "-l"
+        ],
+        "path": "bash"
+    }
+}
 ```
+
+install remote development plugin
+---------------------------------
 
 Run up vscode and install the remote development plugin:
 
     module load vscode
     code
-    <control>P
+
+Inside vscode:
+    
+    Ctrl+P
     ext install ms-vscode-remote.vscode-remote-extensionpack
+
+add container config to local repository
+----------------------------------------
 
 Finally drop the file `.devcontainer.json` into the root folder of a project
 and open that folder with VSCode. You will be prompted to reopen the project
@@ -111,13 +134,30 @@ to use the following:
 ssh your_fed_id@machine_name
 ```
 
-Know Issues
-===========
-When a devcontainer is launched it will usually start a single terminal that is
-NOT using the login profile. To work around this close and reopen the 1st terminal
+Known Issues
+============
+
+profile mismatch
+----------------
+When a devcontainer is launched, it will usually start a single terminal that is
+NOT using the login profile. To work around this, close and reopen the 1st terminal
 or type:
 ```
 bash -l
 ```
 
+insufficient UIDs/GIDs
+----------------
+When building the container for the first time, you may come across the following:
+```
+Error: writing blob: adding layer with blob 
+"sha256:0b2dc63a68b9b80b6e261e0c71119894a739d353f8263d6b2f1394c66a45f5af": ApplyLayer exit status 1 stdout:  
+stderr: potentially insufficient UIDs or GIDs available in user namespace (requested 0:54 for /run/lock/lockdev): 
+Check /etc/subuid and /etc/subgid: lchown /run/lock/lockdev: invalid argument
+```
+
+Rootless Podman uses a pause process to preserve the unprivileged namespaces, which locks down the user files /etc/subuid and /etc/subgid.
+The following command will stop the pause process and release the files for editing:
+
+    podman system migrate
 
