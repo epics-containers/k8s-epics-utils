@@ -108,9 +108,13 @@ function k8s-ioc()
         ;;
 
     deploylocal)
-        ioc=${1:? "param 1 should be name of an ioc helmchart e.g. in iocs folder"}; shift
-        # deploy the local helm chart
-        helm upgrade --install ${ioc} iocs/${ioc}
+        ioc=${1:? "param 1 should the ioc helmchart root folder"}; shift
+        # create a tag for todays date and beta number as time of day
+        TAG=$(date +%Y.%-m.%-d-b%-H.%M); NAME=$(basename ${ioc})
+        ioc=$(realpath ${ioc}); TMPDIR=$(mktemp -d); cd ${TMPDIR}
+        helm package $ioc --version ${TAG} --app-version ${TAG}
+        helm upgrade --install ${NAME} *.tgz
+        cd -; rm -r ${TMPDIR}
         ;;
 
     e|exec)

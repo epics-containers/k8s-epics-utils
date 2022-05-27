@@ -11,7 +11,7 @@
 
 if [ -z "${1}" ]
 then
-    echo 'usage ioc-launch <ioc-name> [user]
+    echo 'usage ioc-launch <ioc-chart-root-folder>
         launches the ioc in a local container for debugging purposes
     '
     exit 1
@@ -19,16 +19,22 @@ fi
 
 ioc=$(realpath ${1})
 
-if [ -z $(which docker 2> /dev/null) ]
+if [ -z $(which podman 2> /dev/null) ]
 then
-    # use podman if we dont see docker installed
+    # use docker if we dont see podman installed
     shopt -s expand_aliases
-    alias docker='podman'
+    alias podman='docker'
 fi
 
-command="bash /epics/ioc/config/start.sh"
+function addvol ()
+{
+  vols=$vols" --mount type=bind,source=${1},destination=${2},bind-propagation=rslave,z"
+}
+
+command="bash /repos/epics/ioc/config/start.sh"
 image=$(awk '/base_image/{print $NF}' ${ioc}/values.yaml)
 
-echo docker run -it --network host -v=${ioc}/config:/epics/ioc/config:rw ${image} ${command}
-docker run -it --network host -v=${ioc}/config:/epics/ioc/config:rw ${image} ${command}
+addvol /scratch/hgv27681/work/epics-containers/bl45p/iocs/bl45p-ea-ioc-01/config /repos/epics/ioc/config
+set -x
+podman run -it --network host ${vols} ${image} ${command}
 

@@ -23,8 +23,10 @@ fi
 
 export K8S_HELM_REGISTRY=ghcr.io/epics-containers
 echo 'loading config for pollux cluster and helm 3.8.2 ...'
-module load pollux > /dev/null
 module load helm helm/3.8.2 > /dev/null
+module load pollux > /dev/null
+# remove old helm from path (added my pollux)
+export PATH=$(echo $PATH | sed s=/dls_sw/apps/kubernetes/helm/3.6.3:==)
 
 . ${k8sdir}/kube-functions.sh
 
