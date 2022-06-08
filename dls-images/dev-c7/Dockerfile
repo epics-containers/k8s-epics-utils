@@ -53,3 +53,7 @@ RUN yum install -y xfreerdp zenity
 
 # useful tools 
 RUN yum install -y meld
+
+# Workaround to ensure all locales are available
+RUN sed -i "/override_install_langs=en_US/d" /etc/yum.conf
+RUN yum reinstall -y glibc-common
