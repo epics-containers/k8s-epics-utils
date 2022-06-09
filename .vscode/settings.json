@@ -2,5 +2,8 @@
     "python.pythonPath": "python3",
     "terminal.integrated.commandsToSkipShell": [
         "workbench.action.quickOpen"
+    ],
+    "cSpell.words": [
+        "rslave"
     ]
 }

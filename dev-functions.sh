@@ -127,7 +127,7 @@ function cdev-ioc-launch()
 
 
     if [ -z $(podman images -q ${tag}) ] ; then
-        echo -e "\nERROR: requires 'work' tag applied to ${tag}"
+        echo -e "\nERROR: requires 'work' tag applied to ${image}"
         return 1; 
     fi
 

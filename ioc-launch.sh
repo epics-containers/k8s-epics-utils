@@ -35,6 +35,13 @@ command="bash /repos/epics/ioc/config/start.sh"
 image=$(awk '/base_image/{print $NF}' ${ioc}/values.yaml)
 
 addvol /scratch/hgv27681/work/epics-containers/bl45p/iocs/bl45p-ea-ioc-01/config /repos/epics/ioc/config
+
+if [ "${ioc_dev}" ] ; then
+    # remove .run from the image name to get developer image
+    image=${image%.run}
+fi
+
+echo "launching container ${image} with ${command}"
 set -x
 podman run -it --network host ${vols} ${image} ${command}
 
