@@ -51,16 +51,16 @@
     "initializeCommand": "bash -c 'for i in $HOME/.inputrc $HOME/.bashrc_dev; do [ -f $i ] || touch $i; done'",
     "runArgs": [
         "--privileged",
-        "--net=host",
+        "--net=host"
     ],
     "mounts": [
         // map in home directory - not strictly necessary but may be useful
-        // "source=${localEnv:HOME},destination=${localEnv:HOME},type=bind,consistency=cached,bind-propagation=rslave"
+        "source=${localEnv:HOME},destination=${localEnv:HOME},type=bind,consistency=cached,bind-propagation=rslave",
+        // bring user's ssh keys into the container
         "type=bind,source=${localEnv:HOME}/.ssh,destination=/root/.ssh,bind-propagation=rslave",
+        // bring bash startup and history in too. Note use of .bashrc_dev (example in .devcontainer/.bashrc_dev)
         "type=bind,source=${localEnv:HOME}/.bashrc_dev,destination=/root/.bashrc,bind-propagation=rslave",
         "type=bind,source=${localEnv:HOME}/.inputrc,destination=/root/.inputrc,bind-propagation=rslave",
         "type=bind,source=${localEnv:HOME}/.bash_history,destination=/root/.bash_history,bind-propagation=rslave",
-    ],
-    "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,bind-propagation=rslave",
-    "workspaceFolder": "/workspace"
+    ]
 }
