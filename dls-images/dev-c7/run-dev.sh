@@ -17,14 +17,8 @@ volumes="-v /dls_sw/prod:/dls_sw/prod \
         -v /dls_sw/apps:/dls_sw/apps \
         -v /dls_sw/etc:/dls_sw/etc \
         -v /scratch:/scratch \
-        -v ${HOME}:${HOME}"
-
-# Map /dls/science/users/<fedid> if it is set up
-dls_science_users="/dls/science/users/${USER}"
-if [[ -d $dls_science_users ]]; then
-  volumes="${volumes} \
-        -v ${dls_science_users}:${dls_science_users}"
-fi
+        -v ${HOME}:${HOME} \
+        -v /dls/science/users/:/dls/science/users/"
 
 devices="-v /dev/ttyS0:/dev/ttyS0 -v /dev/dri:/dev/dri"
 opts="--net=host --rm -ti --hostname dev-c7"
