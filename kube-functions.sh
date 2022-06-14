@@ -72,7 +72,7 @@ function k8s-ioc()
     case ${action} in
 
     a|attach)
-        ioc=${1:? "param 1 should be ioc e.g. bl45p-mo-ioc-01"}; shift
+        ioc=${1:? param 1 should be ioc e.g. bl45p-mo-ioc-01}; shift
         echo "connecting to ${ioc}. Detach with ^P^Q or stop with ^D"
         kubectl attach -it deployment.apps/${ioc} ${*}
         ;;
@@ -112,7 +112,7 @@ function k8s-ioc()
         # create a tag for todays date and beta number as time of day
         TAG=$(date +%Y.%-m.%-d-b%-H.%M); NAME=$(basename ${ioc})
         ioc=$(realpath ${ioc}); TMPDIR=$(mktemp -d); cd ${TMPDIR}
-        helm package $ioc --version ${TAG} --app-version ${TAG}
+        helm package -u $ioc --version ${TAG} --app-version ${TAG}
         helm upgrade --install ${NAME} *.tgz
         cd -; rm -r ${TMPDIR}
         ;;

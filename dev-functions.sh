@@ -36,7 +36,9 @@ function get-image-name()
     # from the local root folder name of the clone
     
     # extract remote git repo to determine ghcr image tag
-    image_repo=$(git remote -v 2> /dev/null | sed -e 's/.*github.com:\(.*\)\.git.*/\1/' -e 1q)
+    image_repo=$(
+        git remote -v 2> /dev/null | 
+        sed -e 's/.*github.com:\(.*\)\.git.*/\1/' -e 1q)
     if [ -z "${image_repo}" ] ; then
         echo -e "\nERROR: This function must be run in a clone of a github container project"
         return 1
