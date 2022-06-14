@@ -39,6 +39,7 @@
         "source=/dls_sw/etc,target=/dls_sw/etc,type=bind,consistency=cached",
         "source=${localEnv:HOME},target=${localEnv:HOME},type=bind,consistency=cached",
         "source=/scratch/${localEnv:USER},target=/scratch/${localEnv:USER},type=bind,consistency=cached",
+	"source=/dls/science/users,target=/dls/science/users,type=bind,consistency=cached"
     ],
     "runArgs": [
         "-h=dev-c7",
