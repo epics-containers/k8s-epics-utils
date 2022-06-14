@@ -52,7 +52,7 @@ COPY /sudoers /etc/sudoers
 RUN yum install -y xfreerdp zenity
 
 # useful tools 
-RUN yum install -y meld
+RUN yum install -y meld tk
 
 # Workaround to ensure all locales are available
 RUN sed -i "/override_install_langs=en_US/d" /etc/yum.conf
