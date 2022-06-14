@@ -28,17 +28,18 @@
     },
     // Add the IDs of extensions you want installed when the container is created.
     "extensions": [
-        "ms-python.python",
-        "ms-python.vscode-pylance",
-        "streetsidesoftware.code-spell-checker",
-        "ryanluker.vscode-coverage-gutters",
-        "mhutchie.git-graph",
-        "eamodio.gitlens",
-        "gruntfuggly.todo-tree",
-        "redhat.vscode-yaml",
-        "nsd.vscode-epics",
-        "alefragnani.bookmarks"
-    ],
+		"ms-python.python",
+		"ms-python.vscode-pylance",
+		"streetsidesoftware.code-spell-checker",
+		"ryanluker.vscode-coverage-gutters",
+		"mhutchie.git-graph",
+		"eamodio.gitlens",
+		"gruntfuggly.todo-tree",
+		"redhat.vscode-yaml",
+		"nsd.vscode-epics",
+		"alefragnani.bookmarks",
+		"GitHub.vscode-pull-request-github"
+	],
     "features": {
         //"docker-from-docker": "20.10",
         "git": "os-provided"
