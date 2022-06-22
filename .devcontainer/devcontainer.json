@@ -38,7 +38,8 @@
 		"redhat.vscode-yaml",
 		"nsd.vscode-epics",
 		"alefragnani.bookmarks",
-		"GitHub.vscode-pull-request-github"
+		"GitHub.vscode-pull-request-github",
+		"moshfeu.compare-folders"
 	],
     "features": {
         //"docker-from-docker": "20.10",
